@@ -21,6 +21,7 @@ if (isset($_POST['login'])) {
         if ($sha1 === $user['password']) {
             $_SESSION['ID'] = $user['id'];
             $_SESSION['NAME'] = $user['name'];
+            $_SESSION['LEVEL_ID'] = $user['level_id'];
             header("location:home.php");
             print_r('coba kesini');
             die;

@@ -4,7 +4,32 @@ ob_start();
 include 'inc/functions.php';
 include 'config/config.php';
 
-// checkLogin();
+checkLogin();
+// login sbgai operator, cuma bisa buka menu 
+//operator mencoba menggati url
+
+// $currentPage = isset ($_GET['page']) ? $_GET['page'] : 'dashboard';
+// // if($$currentPage == 'dashboard'){
+// //   return $allowed_role = true;
+// // }
+// $level_id = $_SESSION['LEVEL_ID'];
+
+// $query = mysqli_query($config, "SELECT * FROM menus JOIN level_menus ON level_menus.menu_id = menus.id WHERE level_id = '$level_id' ");
+// $rows = mysqli_fetch_all($query, MYSQLI_ASSOC);
+// $allowed_role = false;
+// foreach($rows as $row){
+//   if($row['link'] == $currentPage){
+//     $allowed_role= true;
+//     break;
+//   } 
+// }
+// if(!$allowed_role){
+//   echo "<h1>Access Failed</h1>";
+//   echo "anda tidak memiliki hak akses" . ucfirst($currentPage);
+//   echo "<a href='home.php?page=dashboard'>Back to Dashboard</a>";
+//   exit;
+// }
+
 ?>
 
 <!DOCTYPE html>

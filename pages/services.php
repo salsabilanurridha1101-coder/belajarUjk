@@ -46,7 +46,7 @@ if (isset($_GET['delete'])) {
                                 <td><?php echo $service['description'] ?></td>
                                 <td>
                                     <a class="btn btn-outline-success" href="?page=tambah-service&edit=<?php echo $service['id'] ?>"> <i class="bi bi-pencil"></i></a>
-                                    <form class="d-inline" action="?page=services&delete=<?php echo $service['id'] ?>" method="post" onclick="return confirm('ingin menghapusnya?')">
+                                    <form class="d-inline" action="?page=service&delete=<?php echo $service['id'] ?>" method="post" onclick="return confirm('ingin menghapusnya?')">
                                         <button class="btn btn-outline-danger"><i class="bi bi-trash"></i></button>
                                     </form>
                                 </td>

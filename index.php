@@ -38,7 +38,7 @@ if (isset($_POST['login'])) {
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-    <title>Laundry PPKD Jakarta Pusat</title>
+    <title>Small Laundry</title>
     <meta content="" name="description">
     <meta content="" name="keywords">
 
@@ -84,7 +84,7 @@ if (isset($_POST['login'])) {
                             <div class="d-flex justify-content-center py-4">
                                 <a href="index.html" class="logo d-flex align-items-center w-auto">
                                     <img src="assets/img/logo.png" alt="">
-                                    <span class="d-none d-lg-block">Laundry PPKD Jakarta Pusat</span>
+                                    <span class="d-none d-lg-block">Welcome to Small Laundry</span>
                                 </a>
                             </div><!-- End Logo -->
 
@@ -93,7 +93,7 @@ if (isset($_POST['login'])) {
                                 <div class="card-body">
 
                                     <div class="pt-4 pb-2">
-                                        <h5 class="card-title text-center pb-0 fs-4">Login to Your Account</h5>
+                                        <h6 class="card-title text-center pb-0 fs-4">Login to Your Account</h6>
                                         <p class="text-center small">Enter your email & password to login</p>
                                     </div>
 

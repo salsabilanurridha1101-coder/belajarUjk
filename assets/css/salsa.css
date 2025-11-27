@@ -93,6 +93,11 @@ body {
     font-weight: bold;
 }
 
+.btn-clear-cart {
+    padding: 15px;
+    font-size: 1.1;
+    font-weight: bold;
+}
 
 /* .btn-outline-danger {
     border: none;

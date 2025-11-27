@@ -1,150 +1,172 @@
-let nama = "nur ridha salsabila";
-var name = "hei jangan lanjyut!";
-const fullname = "nur ridha salsabila";
-// const : tetap tidak boleh merubah nilai
-// document.write ()
-// console.log({"nama": name, "fullname": fullname});
-// alert(name);
-
-let angka1 = 10;
-let angka2 = 20;
-console.log(angka1 + angka2);
-console.log(angka1 - angka2);
-console.log(angka1 / angka2);
-console.log(angka1 * angka2);
-console.log(angka1 % angka2);
-console.log(angka1 ** angka2);
-
-//operator penugasan
-let x = 10;
-x += 5; //15
-console.log(x);
-
-//operator pembandingan
-// >,<,=, ==,===,!==
-let a = 1;
-let b = 1;
-if (a === b) {
-    console.log("ya");
-} else {
-    console.log(tidak);
-}
-
-console.log(a > b);
-console.log(a < b);
-
-//operator logika
-//&&, AND, OR, ||, !: tidak/not
-let umur = 20;
-let punyaSim = true;
-if (umur >= 17 && punyaSim) {
-    console.log("boleh mengemudi");
-} else {
-    console.log("tidak boleh mengemudi");
-}
-
-//array: sebuah tipe data yang bisa memiliki nilai lebih dari satu (1)
-let buah = ["pisang", "salak", "semangka"];
-//      0          1         2
-console.log("buah di keranjang:", buah);
-console.log("saya mau buah:", buah[1]);
-buah[1] = "nanas";
-console.log("buah baru:", buah);
-buah.push("pepaya");
-console.log("buah", buah);
-buah.push("jeruk");
-console.log("buah", buah);
-buah.pop();
-console.log("buah", buah);
-
-// document.querySelector("#product-title")
-document.getElementById("product-title").innerHTML = "<p>Data Product Baru</p>";
-// document.getElementsByClassName('category-btn');
-let btn = document.getElementsByClassName("category-btn");
-// btn[0].style.color = "black";
-// btn[1].style.color = "black";
-// btn[2].style.color = "black";
-// btn[3].style.color = "black";
-console.log("ini button", btn);
-let buttons = document.querySelectorAll(".category-btn");
-// buttons.forEach(function(btn) {});
-buttons.forEach((btn) => {
-    btn.style.color = "black";
-    console.log(btn);
-});
-
-// let card = document.getElementById('card');
-// let h3 = document.createElement("h3");
-// let textH3 = document.createTextNode("Selamat Datang");
-// h3.textContent = "Selamat Datang dengan textcontent";
-// let p = document.createElement('p');
-// p.innerText = "ETTT";
-// p.textContent = "eh eh eh";
-// //nambahin element didalam card
-// card.appendChild(h3);
-// card.appendChild(p);
-
-// foreach($buttons as $btn){}
-//"id" hanya 1,"classs" sifatnya banyak
-
 let currentCategory = "all";
+let products = [];
+let cart = [];
 
-function filterCategory(category, event) {
-    currentCategory = category;
-
-    let buttons = document.querySelectorAll(".category-btn");
-    buttons.forEach((btn) => {
-    btn.classList.remove('active');
-    btn.classList.remove('btn-warning');
-    btn.classList.add("btn-outline-warning") ;   
-});
-event.classList.add("active");
-event.classList.remove("btn-outline-warning");
-event.classList.add("btn-warning");
-console.log({currentCategory: currentCategory, category: category, event: event});
-
-
-renderProducts();
+function selectCustomers() {
+  const select = document.getElementById("customer_id");
+  const phone = select.options[select.selectedIndex].getAttribute("data-phone");
+  document.getElementById("phone").value = phone || "";
 }
 
-function renderProducts(searchProduct = ""){
-    const productGrid = document.getElementById("productGrid");
-    productGrid.innerHTML = "";
-
-    //filter
-    const filtered = products.filter((product) =>{
-        //shorthand/ ternery
-        const matchCategory = currentCategory === "all" || product.category_name === currentCategory;
-        const matchSearch = product.product_name.toLowerCase().includes(searchProduct);
-        return matchCategory && matchSearch;
-    });
-
-    //munculin data dari table products
-    filtered.forEach((product)=> {
-        const col = document.createElement('div');
-        col.className = "col-md-3 col-sm-6 mb-4";
-        col.innerHTML = 
-        `<div class="card product-card">
-        <div class="product-img">
-            <img src="../${product.product_photo}" alt="" width="100%">
-        </div>
-        <div class="card-body">
-            <span class="badge bg-secondary badge-category">${product.category_name}</span>
-            <h6 class="card-title mt-2 mb-2">${product.product_name}</h6>
-            <p class="card-text text-primary fw-bold">Rp.${product.product_price}.-</p>
-        </div>
-        </div>`;
-        productGrid.appendChild(col);
-    });
-
-    console.log(products);
+function openModal(service) {
+  document.getElementById("modal_id").value = service.id;
+  document.getElementById("modal_name").value = service.name;
+  document.getElementById("modal_price").value = service.price;
+  document.getElementById("modal_qty").value = service.qty;
+  //   new bootstrap.Modal("#exampleModal").show();
 }
-//useEffect(() =>{
-//}. [])
-// DomContentLoaded : akan meload funcion pertama kali 
-renderProducts();
 
-document.getElementById("searchProduct").addEventListener("input", function (e) {
-    const searchProduct = e.target.value.toLowerCase();
-    renderProducts(searchProduct);
+function addToCart() {
+  const id = document.getElementById("modal_id").value;
+  const name = document.getElementById("modal_name").value;
+  const price = parseInt(document.getElementById("modal_price").value);
+  const qty = parseInt(document.getElementById("modal_qty").value);
+
+  const existing = cart.find((item) => item.id == id);
+  if (existing) {
+    existing.qty += qty;
+  } else {
+    cart.push({
+      id,
+      name,
+      price,
+      qty,
+    });
+  }
+  renderCart();
+}
+
+function renderCart() {
+  const cartContainer = document.querySelector("#cartItems");
+  cartContainer.innerHTML = "";
+
+  if (cart.length === 0) {
+    cartContainer.innerHTML = `
+      <div class="cart-items" id="cartItems">
+      <div class="text-center text-muted mt-5">
+      <i class="bi bi-cart mb-3"></i>
+      <p>Cart Empty</p>
+      </div>
+      </div>`;
+    updateTotal();
+    // return;
+  }
+  cart.forEach((item, index) => {
+    const div = document.createElement("div");
+    div.className =
+      "cart-item d-flex justify-content-between align-items-center mb-2";
+    div.innerHTML = `
+        <div>
+
+                <strong>${item.name}</strong>
+                <small>${item.price.toLocaleString("id-ID")}</small>
+                </div>
+                <div class="d-flex align-items-center m-5 gap-2">
+                    <button class="btn btn-outline-secondary me-2" onclick="changeQty(${
+                      item.id
+                    }, -1)">-</button>
+                    <span>${item.qty}</span>
+                    <button class="btn btn-outline-secondary ms-3" onclick="changeQty(${
+                      item.id
+                    }, 1)">+</button>
+                    <button class="btn btn-sm btn-danger ms-3" onclick="removeItem(${
+                      item.id
+                    })">
+                        <i class="bi bi-trash"></i>
+                    </button>
+                </div>`;
+
+    cartContainer.appendChild(div);
+  });
+  updateTotal();
+}
+// hapus item cart
+function removeItem(id) {
+  cart = cart.filter((p) => p.id != id);
+  renderCart();
+}
+// mengatur qty item cart
+function changeQty(id, x) {
+  const item = cart.find((p) => p.id == id);
+  if (!item) {
+    return;
+  }
+  item.quantity += x;
+  if (item.quantity <= 0) {
+    alert("minimal harus 1 product");
+    // cart = filter((p) => p.id != id);
+  }
+  renderCart();
+}
+
+function updateTotal() {
+  const subTotal = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
+  const tax = subTotal * 0.1;
+  const total = tax + subTotal;
+
+  document.getElementById(
+    "Subtotal"
+  ).textContent = `Rp. ${subTotal.toLocaleString()}`;
+  document.getElementById("tax").textContent = `Rp. ${tax.toLocaleString()}`;
+  document.getElementById(
+    "total"
+  ).textContent = `Rp. ${total.toLocaleString()}`;
+  document.getElementById("subtotal_value").value = subTotal;
+  document.getElementById("tax_value").value = tax;
+  document.getElementById("total_value").value = total;
+
+  // console.log(subTotal);
+  // console.log(tax);
+  // console.log(total);
+}
+
+// clearCart
+document.getElementById("clearCart").addEventListener("click", function () {
+  cart = [];
+  renderCart();
 });
+
+// ngelampar ke php subtotalnya
+async function processPayment() {
+  if (cart.length === 0) {
+    alert("Cart Masih Kosong");
+    return;
+  }
+  const order_code = document.querySelector(".orderNumber").textContent.trim();
+  const subtotal = document.querySelector("#subtotal_value").value.trim();
+  const tax = document.querySelector("#tax_value").value.trim();
+  const grandTotal = document.querySelector("#total_value").value.trim();
+  const customer_id = document.getElementById("customer_id").value;
+  const end_date = document.getElementById("end_date").value;
+  try {
+    const res = await fetch("add-order.php?payment", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        cart,
+        order_code,
+        subtotal,
+        tax,
+        grandTotal,
+        customer_id,
+        end_date,
+      }),
+    });
+    const data = await res.json();
+    if (data.status == "success") {
+      alert("Transaction success");
+      window.location.href = "print.php";
+    } else {
+      alert("Transaction failed", data.message);
+    }
+    // const data = await res.json();
+  } catch (error) {
+    alert("Ups! Transaction failed!");
+    console.log("error", error);
+  }
+}
+
+// useEffect(() => {
+// }, [])
+
+// DomContentLoaded : akan meliad function pertama kali

@@ -1,11 +1,11 @@
 <?php
-include '../config/koneksi.php';
+include '../config/config.php';
 session_start();
-$query = mysqli_query($koneksi, "SELECT * FROM orders ORDER BY id DESC");
+$query = mysqli_query($config, "SELECT * FROM trans_orders ORDER BY id DESC");
 $row = mysqli_fetch_assoc($query);
 
 $order_id = $row['id'];
-$queryDetails = mysqli_query($koneksi, "SELECT p.product_name, od.* FROM order_details od LEFT JOIN products p ON P.id = od.product_id WHERE order_id = '$order_id'");
+$queryDetails = mysqli_query($config, "SELECT p.product_name, od.* FROM trans_orders od LEFT JOIN orders p ON P.id = od.product_id WHERE order_id = '$order_id'");
 $rowDetails = mysqli_fetch_all($queryDetails, MYSQLI_ASSOC);
 ?>
 

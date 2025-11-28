@@ -1,6 +1,7 @@
 <?php
-// require_once 'config/config.php';
-$query = mysqli_query($config, "SELECT c.name, `to`.* FROM trans_orders `to` LEFT JOIN customers c ON c.id = to.customer_id ORDER BY to.id DESC");
+$query = mysqli_query($config, "SELECT c.name, `to`.* FROM trans_orders `to`
+LEFT JOIN customers c ON c.id = `to`.customer_id 
+ORDER BY `to`.id");
 $rows = mysqli_fetch_all($query, MYSQLI_ASSOC);
 
 
@@ -8,12 +9,12 @@ $rows = mysqli_fetch_all($query, MYSQLI_ASSOC);
 if (isset($_GET['delete'])) {
     $id = $_GET['delete'];
 
-    if (file_exists($filePath)) {
-        unlink($filePath);
-    }
-    $delete = mysqli_query($config, "DELETE FROM products WHERE id = $id");
+    // if (file_exists($filePath)) {
+    //     unlink($filePath);
+    // }
+    $delete = mysqli_query($config, "DELETE FROM trans_orders WHERE id = $id");
     if ($delete) {
-        header("location:?page=product");
+        header("location:?page=order");
     }
 }
 ?>
@@ -41,11 +42,12 @@ if (isset($_GET['delete'])) {
                             <th>No</th>
                             <th>Order Code</th>
                             <th>Order End Date</th>
+                            <th>Order Amount</th>
                             <th>Order Tax</th>
                             <th>Order Pay</th>
                             <th>Order Change</th>
                             <th>Status</th>
-                            <th>Action</th>
+                            <th>Actions</th>
                         </tr>
                         <?php foreach ($rows as $key => $v) {
                         ?>
@@ -59,8 +61,8 @@ if (isset($_GET['delete'])) {
                                 <td><?php echo $v['order_change'] ?></td>
                                 <td><?php echo $v['order_status'] ?></td>
                                 <td>
-                                    <a href="?page=tambah-product&edit=<?php echo $v['id'] ?>" class="btn btn-outline-warning"><i class="bi bi-pencil"></i></a>
-                                    <a href="?page=product&delete=<?php echo $v['id'] ?>" class="btn btn-outline-danger" onclick="return confirm('really wnna delete??')"><i class="bi bi-trash"></i></a>
+                                    <a href="pos/print.php?id=<?php echo $v['id'] ?>" class="btn btn-outline-warning"><i class="bi bi-printer"></i></a>
+                                    <a href="?page=order&delete=<?php echo $v['id'] ?>" class="btn btn-outline-danger" onclick="return confirm('really wnna delete??')"><i class="bi bi-trash"></i></a>
                                 </td>
                             </tr>
                         <?php } ?>

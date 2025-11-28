@@ -6,6 +6,9 @@ $rowServices = mysqli_fetch_all($queryServices, MYSQLI_ASSOC);
 
 $queryCustomers = mysqli_query($config, "SELECT * FROM customers");
 $rowCustomers = mysqli_fetch_all($queryCustomers, MYSQLI_ASSOC);
+
+$querytax = mysqli_query($config, "SELECT * FROM taxs WHERE is_active = 1 ORDER BY id DESC LIMIT 1");
+$rowtax = mysqli_fetch_assoc($querytax);
 // query product
 // $queryProducts = mysqli_query($config, "SELECT c.category_name,p.* FROM products p LEFT JOIN categories c ON c.id = p.category_id");
 // $fetchProducts = mysqli_fetch_all($queryProducts, MYSQLI_ASSOC);
@@ -28,8 +31,8 @@ if (isset($_GET['payment'])) {
     $orderStatus = 1;
 
     try {
-        $insertOrder = mysqli_query($config, "INSERT INTO trans_orders(order_code, order_end_date, order_total, order_pay, order_change, order_tax, order_status) 
-        VALUES ('$orderCode','$end_date','$orderAmounth', '$orderPay','$orderChange', '$tax', '$orderStatus')");
+        $insertOrder = mysqli_query($config, "INSERT INTO trans_orders(order_code, order_end_date, order_total, order_pay, order_change, order_tax, order_status, customer_id) 
+        VALUES ('$orderCode','$end_date','$orderAmounth', '$orderPay','$orderChange', '$tax', '$orderStatus', '$customer_id')");
         $idOrder = mysqli_insert_id($config);
         if (!$insertOrder) {
             throw new Exception("Insert failed to table orders", mysqli_error($config));
@@ -66,11 +69,11 @@ if (isset($_GET['payment'])) {
     }
 }
 
-// $orderNumbers = mysqli_query($config, "SELECT id FROM orders ORDER BY id DESC LIMIT 1");
-// $row = mysqli_fetch_assoc($orderNumbers);
-// $nextId = $row ? $row['id'] + 1 : 1;
+$orderNumbers = mysqli_query($config, "SELECT id FROM trans_orders ORDER BY id DESC LIMIT 1");
+$row = mysqli_fetch_assoc($orderNumbers);
+$nextId = $row ? $row['id'] + 1 : 1;
 // STR_PAD fungtion dari php untuk membuat sebuah nomor urut atau running number
-// $order_code =  "ORD-" . date('dmy') . str_pad($nextId, 4, "0", STR_PAD_RIGHT);
+$order_code =  "ORD-" . date('dmy') . str_pad($nextId, 4, "0", STR_PAD_RIGHT);
 // if(row) {
 //     $nextId= $row['id'] +1;
 // } else {
@@ -173,7 +176,7 @@ if (isset($_GET['payment'])) {
                                 </div>
                                 <div class="mb-3">
                                     <label for="" class="form-label">Weight / Qty</label>
-                                    <input type="number" id="modal_qty" class="form-control" placeholder="Weight / Qty">
+                                    <input type="number" id="modal_qty" class="form-control" step="0.1" min="0" placeholder="Weight / Qty">
                                 </div>
                             </div>
                             <div class="modal-footer">
@@ -185,10 +188,10 @@ if (isset($_GET['payment'])) {
                 </div>
             </div>
             <div class="col-md-5 cart-section">
-                <div class="cart-header">
+                <div class="cart-header">Subtotal
                     <h4>cart</h4>
                     <!-- ORD-date-001 -->
-                    <small>Order # <span class="orderNumber"></span></small>
+                    <small>Order # <span class="orderNumber"><?php echo $order_code ?></span></small>
                 </div>
                 <div class="cart-items" id="cartItems">
                     <div class="text-center text-muted mt-5">
@@ -204,14 +207,23 @@ if (isset($_GET['payment'])) {
                             <input type="hidden" id="subtotal_value">
                         </div>
                         <div class="d-flex justify-content-between mb-2">
-                            <span>Pajak (10%) :</span>
+                            <span>Pajak (<?php echo $rowtax['percent'] ?>)% :</span>
                             <span id="tax">Rp. 0.0</span>
                             <input type="hidden" id="tax_value">
+                            <input type="hidden" id="tax_id" value="<?php echo $rowtax['percent'] ?>">
                         </div>
                         <div class="d-flex justify-content-between mb-2">
                             <span>Total :</span>
                             <span id="total">Rp. 0.0</span>
                             <input type="hidden" id="total_value">
+                        </div>
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Pay :</span>
+                            <input type="number" id="pay" class="form-control w-50" placeholder="Enter the payment amount" oninput="calculateChange()">
+                        </div>
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Change :</span>
+                            <input type="number" id="change" class="form-control w-50" readonly>
                         </div>
                     </div>
 

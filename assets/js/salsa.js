@@ -19,8 +19,8 @@ function openModal(service) {
 function addToCart() {
   const id = document.getElementById("modal_id").value;
   const name = document.getElementById("modal_name").value;
-  const price = parseInt(document.getElementById("modal_price").value);
-  const qty = parseInt(document.getElementById("modal_qty").value);
+  const price = parseFloat(document.getElementById("modal_price").value);
+  const qty = parseFloat(document.getElementById("modal_qty").value);
 
   const existing = cart.find((item) => item.id == id);
   if (existing) {
@@ -49,6 +49,7 @@ function renderCart() {
       </div>
       </div>`;
     updateTotal();
+    
     // return;
   }
   cart.forEach((item, index) => {
@@ -62,13 +63,6 @@ function renderCart() {
                 <small>${item.price.toLocaleString("id-ID")}</small>
                 </div>
                 <div class="d-flex align-items-center m-5 gap-2">
-                    <button class="btn btn-outline-secondary me-2" onclick="changeQty(${
-                      item.id
-                    }, -1)">-</button>
-                    <span>${item.qty}</span>
-                    <button class="btn btn-outline-secondary ms-3" onclick="changeQty(${
-                      item.id
-                    }, 1)">+</button>
                     <button class="btn btn-sm btn-danger ms-3" onclick="removeItem(${
                       item.id
                     })">
@@ -100,17 +94,18 @@ function changeQty(id, x) {
 }
 
 function updateTotal() {
-  const subTotal = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
-  const tax = subTotal * 0.1;
+  const qty = parseFloat(document.getElementById('modal_qty').value) || 0;
+  const price = parseFloat(document.getElementById('modal_price').value) || 0;
+  // const subtotal = price * qty;
+  const subTotal = cart.reduce((sum, item) => sum + parseFloat(item.price) * parseFloat(item.qty), 0);
+  const taxValue = document.getElementById("tax_id").value;
+  let tax = taxValue / 100;
+  tax = subTotal * tax;
   const total = tax + subTotal;
 
-  document.getElementById(
-    "Subtotal"
-  ).textContent = `Rp. ${subTotal.toLocaleString()}`;
+  document.getElementById("Subtotal").textContent = `Rp. ${subTotal.toLocaleString()}`;
   document.getElementById("tax").textContent = `Rp. ${tax.toLocaleString()}`;
-  document.getElementById(
-    "total"
-  ).textContent = `Rp. ${total.toLocaleString()}`;
+  document.getElementById("total").textContent = `Rp. ${total.toLocaleString()}`;
   document.getElementById("subtotal_value").value = subTotal;
   document.getElementById("tax_value").value = tax;
   document.getElementById("total_value").value = total;
@@ -125,7 +120,7 @@ document.getElementById("clearCart").addEventListener("click", function () {
   cart = [];
   renderCart();
 });
-
+Subtotal
 // ngelampar ke php subtotalnya
 async function processPayment() {
   if (cart.length === 0) {
@@ -136,8 +131,10 @@ async function processPayment() {
   const subtotal = document.querySelector("#subtotal_value").value.trim();
   const tax = document.querySelector("#tax_value").value.trim();
   const grandTotal = document.querySelector("#total_value").value.trim();
-  const customer_id = document.getElementById("customer_id").value;
+  const customer_id = parseInt(document.getElementById("customer_id").value);
   const end_date = document.getElementById("end_date").value;
+
+  console.log({ customer_id, end_date});
   try {
     const res = await fetch("add-order.php?payment", {
       method: "POST",
@@ -155,7 +152,7 @@ async function processPayment() {
     const data = await res.json();
     if (data.status == "success") {
       alert("Transaction success");
-      window.location.href = "print.php";
+      window.location.href = "print.php?id=" + data.order_id;
     } else {
       alert("Transaction failed", data.message);
     }
@@ -165,7 +162,14 @@ async function processPayment() {
     console.log("error", error);
   }
 }
+function calculateChange(){
+  const total = parseFloat(document.getElementById('total').value || 0);
+  const pay = parseFloat(document.getElementById('pay').value || 0);
 
+  let change = pay - total;
+  if (change < 0) change = 0;
+  document.getElementById("change").value = change > 0 ? change.toLocaleString() : "0";
+}
 // useEffect(() => {
 // }, [])
 

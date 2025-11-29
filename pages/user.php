@@ -1,5 +1,8 @@
 <?php
 // include 'config/cofig.php';
+require_once 'inc/functions.php';
+checkLogin();
+
 $query = mysqli_query($config, "SELECT l.name as level_name, u.*FROM users u LEFT JOIN levels l ON l.id = u.level_id ORDER BY u.id DESC "); //desc dari terbesar ke terkecil
 $users = mysqli_fetch_all($query, MYSQLI_ASSOC);
 

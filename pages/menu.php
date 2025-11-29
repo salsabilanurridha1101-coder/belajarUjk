@@ -1,4 +1,7 @@
 <?php
+require_once 'inc/functions.php';
+checkLogin();
+
 $menu_u = mysqli_query($config, "SELECT * FROM menus ORDER BY CAST(`order` AS UNSIGNED) ASC");
 $menus = mysqli_fetch_all($menu_u, MYSQLI_ASSOC);
 // var_dump($levels);

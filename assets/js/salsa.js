@@ -42,14 +42,12 @@ function renderCart() {
 
   if (cart.length === 0) {
     cartContainer.innerHTML = `
-      <div class="cart-items" id="cartItems">
-      <div class="text-center text-muted mt-5">
-      <i class="bi bi-cart mb-3"></i>
-      <p>Cart Empty</p>
-      </div>
-      </div>`;
+  <div class="text-center text-muted mt-5">
+    <i class="bi bi-cart mb-3"></i>
+    <p>Cart Empty</p>
+  </div>`;
     updateTotal();
-    
+
     // return;
   }
   cart.forEach((item, index) => {
@@ -62,7 +60,7 @@ function renderCart() {
                 <strong>${item.name}</strong>
                 <small>${item.price.toLocaleString("id-ID")}</small>
                 </div>
-                <div class="d-flex align-items-center m-5 gap-2">
+                <div class="d-flex align-items-center gap-2">
                     <button class="btn btn-sm btn-danger ms-3" onclick="removeItem(${
                       item.id
                     })">
@@ -94,18 +92,25 @@ function changeQty(id, x) {
 }
 
 function updateTotal() {
-  const qty = parseFloat(document.getElementById('modal_qty').value) || 0;
-  const price = parseFloat(document.getElementById('modal_price').value) || 0;
+  const qty = parseFloat(document.getElementById("modal_qty").value) || 0;
+  const price = parseFloat(document.getElementById("modal_price").value) || 0;
   // const subtotal = price * qty;
-  const subTotal = cart.reduce((sum, item) => sum + parseFloat(item.price) * parseFloat(item.qty), 0);
+  const subTotal = cart.reduce(
+    (sum, item) => sum + parseFloat(item.price) * parseFloat(item.qty),
+    0
+  );
   const taxValue = document.getElementById("tax_id").value;
   let tax = taxValue / 100;
   tax = subTotal * tax;
   const total = tax + subTotal;
 
-  document.getElementById("Subtotal").textContent = `Rp. ${subTotal.toLocaleString()}`;
+  document.getElementById(
+    "Subtotal"
+  ).textContent = `Rp. ${subTotal.toLocaleString()}`;
   document.getElementById("tax").textContent = `Rp. ${tax.toLocaleString()}`;
-  document.getElementById("total").textContent = `Rp. ${total.toLocaleString()}`;
+  document.getElementById(
+    "total"
+  ).textContent = `Rp. ${total.toLocaleString()}`;
   document.getElementById("subtotal_value").value = subTotal;
   document.getElementById("tax_value").value = tax;
   document.getElementById("total_value").value = total;
@@ -120,7 +125,7 @@ document.getElementById("clearCart").addEventListener("click", function () {
   cart = [];
   renderCart();
 });
-Subtotal
+Subtotal;
 // ngelampar ke php subtotalnya
 async function processPayment() {
   if (cart.length === 0) {
@@ -133,8 +138,10 @@ async function processPayment() {
   const grandTotal = document.querySelector("#total_value").value.trim();
   const customer_id = parseInt(document.getElementById("customer_id").value);
   const end_date = document.getElementById("end_date").value;
+  const pay = parseFloat(document.getElementById("pay").value || 0);
+  const change = parseFloat(document.getElementById("change").value.replace(/[,\.]/g, '') || 0);
 
-  console.log({ customer_id, end_date});
+  console.log({ customer_id, end_date });
   try {
     const res = await fetch("add-order.php?payment", {
       method: "POST",
@@ -147,6 +154,8 @@ async function processPayment() {
         grandTotal,
         customer_id,
         end_date,
+        pay,
+        change,
       }),
     });
     const data = await res.json();
@@ -162,9 +171,9 @@ async function processPayment() {
     console.log("error", error);
   }
 }
-function calculateChange(){
-  const total = parseFloat(document.getElementById('total').value || 0);
-  const pay = parseFloat(document.getElementById('pay').value || 0);
+function calculateChange() {
+  const total = parseFloat(document.getElementById("total_value").value || 0);
+  const pay = parseFloat(document.getElementById("pay").value || 0);
 
   let change = pay - total;
   if (change < 0) change = 0;

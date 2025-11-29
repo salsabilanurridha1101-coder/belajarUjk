@@ -1,4 +1,7 @@
 <?php
+require_once 'inc/functions.php';
+checkLogin();
+
 $service_e = mysqli_query($config, "SELECT * FROM services");
 $services = mysqli_fetch_all($service_e, MYSQLI_ASSOC);
 // var_dump($levels);

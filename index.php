@@ -2,7 +2,6 @@
 session_start();
 require_once 'config/config.php';
 
-
 //jika tombol ingin di klik/pencet 
 if (isset($_POST['login'])) {
     $email = trim($_POST['email']); //trim: handle spasi/ menghapus spasi
@@ -23,8 +22,8 @@ if (isset($_POST['login'])) {
             $_SESSION['NAME'] = $user['name'];
             $_SESSION['LEVEL_ID'] = $user['level_id'];
             header("location:home.php");
-            print_r('coba kesini');
-            die;
+            // print_r('coba kesini');
+            // die;
         }
     } else {
         echo "<script>alert('Email tidak ditemukan!')</script>";

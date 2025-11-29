@@ -1,9 +1,8 @@
 <?php
 session_start();
 ob_start();
-include 'inc/functions.php';
 include 'config/config.php';
-
+require_once 'inc/functions.php';
 checkLogin();
 // login sbgai operator, cuma bisa buka menu 
 //operator mencoba menggati url
@@ -39,7 +38,7 @@ checkLogin();
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>Laundry PPKD JP</title>
+  <title>Small Laundry</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -107,14 +106,14 @@ checkLogin();
   <!-- ======= Footer ======= -->
   <footer id="footer" class="footer">
     <div class="copyright">
-      &copy; Copyright <strong><span>Laundry PPKD Jakarta Pusat</span></strong>. All Rights Reserved
+      &copy; Small Laundry<strong><span>| Clean • Fresh • Trusted </span></strong>
     </div>
     <div class="credits">
       <!-- All the links in the footer should remain intact. -->
       <!-- You can delete the links only if you purchased the pro version. -->
       <!-- Licensing information: https://bootstrapmade.com/license/ -->
       <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
-      Designed by <a href="https://bootstrapmade.com/">PPKD Jakarta Pusat</a>
+      Interface & Brand Design by <a href="https://www.instagram.com/_nrrdha/">Nur Ridha Salsabila</a>
     </div>
   </footer><!-- End Footer -->
   <!-- End Footer -->

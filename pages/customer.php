@@ -1,4 +1,6 @@
 <?php
+require_once 'inc/functions.php';
+checkLogin();
 $customer_c = mysqli_query($config, "SELECT * FROM customers");
 $customers = mysqli_fetch_all($customer_c, MYSQLI_ASSOC);
 // var_dump($levels);

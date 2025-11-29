@@ -1,7 +1,10 @@
 <?php
+require_once 'inc/functions.php';
+checkLogin();
+
 $query = mysqli_query($config, "SELECT c.name, `to`.* FROM trans_orders `to`
 LEFT JOIN customers c ON c.id = `to`.customer_id 
-ORDER BY `to`.id");
+ORDER BY `to`.id DESC");
 $rows = mysqli_fetch_all($query, MYSQLI_ASSOC);
 
 
@@ -12,7 +15,7 @@ if (isset($_GET['delete'])) {
     // if (file_exists($filePath)) {
     //     unlink($filePath);
     // }
-    $delete = mysqli_query($config, "DELETE FROM trans_orders WHERE id = $id");
+    $delete = mysqli_query($config, "DELETE FROM trans_orders WHERE id = $id" );
     if ($delete) {
         header("location:?page=order");
     }
@@ -35,7 +38,7 @@ if (isset($_GET['delete'])) {
                 <div class="card-body"><br>
                     <h1 class="card-title">Data Product</h1>
                     <div align='right' class="d-flex-justify-content-end p-2">
-                        <a href="pos/add-order.php" class="btn btn-outline-primary"><i class="bi bi-plus-circle"></i> Add POS</a>
+                        <a href="pos/add-order.php" class="btn btn-primary"><i class="bi bi-plus-circle"></i> Add Order</a>
                     </div>
                     <table class="table table-bordered  text-center table-striped">
                         <tr>
@@ -55,10 +58,10 @@ if (isset($_GET['delete'])) {
                                 <td><?php echo $key + 1 ?></td>
                                 <td><?php echo $v['order_code'] ?></td>
                                 <td><?php echo $v['order_end_date'] ?></td>
-                                <td><?php echo $v['order_total'] ?></td>
-                                <td><?php echo $v['order_tax'] ?></td>
-                                <td><?php echo $v['order_pay'] ?></td>
-                                <td><?php echo $v['order_change'] ?></td>
+                                <td><?php echo number_format($v['order_total'], 0, ',', '.'); ?></td>
+                                <td><?php echo number_format($v['order_tax'], 0, ',', '.'); ?></td>
+                                <td><?php echo number_format($v['order_pay'], 0, ',', '.'); ?></td>
+                                <td><?php echo number_format($v['order_change'], 0, ',', '.'); ?></td>
                                 <td><?php echo $v['order_status'] ?></td>
                                 <td>
                                     <a href="pos/print.php?id=<?php echo $v['id'] ?>" class="btn btn-outline-warning"><i class="bi bi-printer"></i></a>

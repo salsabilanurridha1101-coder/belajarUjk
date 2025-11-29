@@ -4,12 +4,17 @@ session_start();
 
 $id = $_GET['id'] ?? '';
 $id = isset($_GET['id']) ? $_GET['id'] : '';
-$query = mysqli_query($config, "SELECT * FROM trans_orders ORDER BY id DESC");
+$query = mysqli_query($config, "SELECT * FROM trans_orders WHERE id = '$id'");
 $row = mysqli_fetch_assoc($query);
 
 $order_id = $row['id'];
 $queryDetails = mysqli_query($config, "SELECT s.name, od.* FROM trans_order_detail od LEFT JOIN services s ON s.id = od.service_id WHERE order_id = '$order_id'");
 $rowDetails = mysqli_fetch_all($queryDetails, MYSQLI_ASSOC);
+$cash = $row['order_pay'];
+$change = $row['order_change'];
+
+$queryTax = mysqli_query($config, "SELECT * FROM taxs WHERE is_active = 1");
+$taxs     = mysqli_fetch_assoc($queryTax);
 ?>
 
 <!DOCTYPE html>
@@ -132,9 +137,10 @@ $rowDetails = mysqli_fetch_all($queryDetails, MYSQLI_ASSOC);
 <body onload="window.print()">
     <div class="struck-page">
         <div class="header">
-            <h2>Struk Pembayaran</h2>
-            <p>Jl. Karet Benhil</p>
-            <p>0874125369</p>
+            <img src="../assets/img/print_logo_laundry .jpg" style="width: 100px;" alt="">
+            <h2>Small Laundry</h2>
+            <span>Jl. Karet Pasar Baru Barat,Jakarta Pusat</span><br>
+            <span>0874125369</span>
         </div>
         <div class="info">
             <div class="info-row">
@@ -160,36 +166,33 @@ $rowDetails = mysqli_fetch_all($queryDetails, MYSQLI_ASSOC);
             <?php foreach ($rowDetails as $item): ?>
                 <div class="item">
                     <span class="item-name"><?php echo $item['name'] ?></span>
-                    <span class="item-qty">x<?php echo $item['qty'] ?></span>
+                    <span class="item-qty">x<?php echo $item['qty'] ?>/kg</span>
                     <span class="item-price">Rp. <?php echo number_format($item['price']) ?></span>
                 </div>
             <?php endforeach ?>
             <div class="separator"></div>
         </div>
-        <div class="totals">
-            <div class="total-row">
-                <span>Sub Total</span>
-                <span>Rp. 10.000</span>
-            </div>
-            <div class="total-row">
-                <span>Ppn (include)</span>
-                <span></span>
-            </div>
+        <div class="total-row">
+        <span>Ppn (<?php echo $taxs['percent'] ?>%)</span>
+        <span><?php echo "Rp. " . number_format($row['order_tax'], 0, ',', ',')?></span>
+      </div>
+        <div class="total-row">
+           <span>Sub Total</span>
+           <span>Rp. <?php echo number_format($row['order_total'], 0, ',', '.') ?></span>
         </div>
         <div class="separator"></div>
         <div class="total-row grand ">
             <span>Total</span>
-            <span>Rp. <?php echo $row['order_total']?> </span>
-            
+            <span>Rp. <?php echo number_format($row['order_total'], 0, ',', '.'); ?></span>   
         </div>
-        <div class="total-row">
-                <span>Cash</span>
-                <span>Rp.100.000</span>
-            </div>
-            <div class="total-row">
+        <div class="total-row grand">
+                <span >Cash</span>
+                <span>Rp.<?php echo number_format($cash, 0, ',', '.') ?></span>
+        </div>
+        <div class="total-row grand">
                 <span>Change</span>
-                <span>Rp.50.000</span>
-            </div>
+                <span>Rp.<?php echo number_format($change, 0, ',', '.')?></span>
+        </div>
         <!-- <div class="payment">
             <div class="total-row">
                 <span>Cash</span>

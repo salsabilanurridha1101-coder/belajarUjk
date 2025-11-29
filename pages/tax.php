@@ -1,5 +1,8 @@
 <?php
 // require_once 'config/config.php';
+require_once 'inc/functions.php';
+checkLogin();
+
 $query = mysqli_query($config, "SELECT * FROM taxs ORDER BY id DESC");
 $rows = mysqli_fetch_all($query, MYSQLI_ASSOC);
 

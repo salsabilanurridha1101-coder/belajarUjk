@@ -5,8 +5,7 @@ die; -->
     <nav>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="home.php">Home</a></li>
-            <li class="breadcrumb-item">Pages</li>
-            <li class="breadcrumb-item active">Blank</li>
+            <li class="breadcrumb-item"><a href="blank.php"></a></li>
         </ol>
     </nav>
 </div><!-- End Page Title -->

@@ -26,13 +26,13 @@ if (isset($_GET['payment'])) {
     $orderCode = $data['order_code'];
     $end_date = $data['end_date'];
     $customer_id = $data['customer_id'];
-    $orderChange = 0;
-    $orderPay = 0;
+    $pay = $data['pay'];
+    $change = $data['change'];
     $orderStatus = 1;
 
     try {
         $insertOrder = mysqli_query($config, "INSERT INTO trans_orders(order_code, order_end_date, order_total, order_pay, order_change, order_tax, order_status, customer_id) 
-        VALUES ('$orderCode','$end_date','$orderAmounth', '$orderPay','$orderChange', '$tax', '$orderStatus', '$customer_id')");
+        VALUES ('$orderCode','$end_date','$orderAmounth', '$pay','$change', '$tax', '$orderStatus', '$customer_id')");
         $idOrder = mysqli_insert_id($config);
         if (!$insertOrder) {
             throw new Exception("Insert failed to table orders", mysqli_error($config));
@@ -199,6 +199,7 @@ $order_code =  "ORD-" . date('dmy') . str_pad($nextId, 4, "0", STR_PAD_RIGHT);
                         <p>cart the empty </p>
                     </div>
                 </div>
+                
                 <div class="cart-footer">
                     <div class="total-section">
                         <div class="d-flex justify-content-between mb-2">
@@ -223,7 +224,7 @@ $order_code =  "ORD-" . date('dmy') . str_pad($nextId, 4, "0", STR_PAD_RIGHT);
                         </div>
                         <div class="d-flex justify-content-between mb-2">
                             <span>Change :</span>
-                            <input type="number" id="change" class="form-control w-50" readonly>
+                            <input type="text" id="change" class="form-control w-50" readonly>
                         </div>
                     </div>
 

@@ -1,4 +1,7 @@
 <?php
+require_once 'inc/functions.php';
+checkLogin();
+
 $levels_e = mysqli_query($config, "SELECT * FROM levels");
 $levels = mysqli_fetch_all($levels_e, MYSQLI_ASSOC);
 // var_dump($levels);

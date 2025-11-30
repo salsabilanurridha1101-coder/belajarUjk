@@ -123,7 +123,7 @@ CREATE TABLE `menus` (
 INSERT INTO `menus` (`id`, `name`, `icon`, `link`, `order`, `created_at`, `updated_at`) VALUES
 (1, 'dashboard', 'bi bi-app', 'dashboard', 1, '2025-11-28 07:38:34', NULL),
 (2, 'customer', 'bi bi-table', 'customer', 2, '2025-11-28 07:38:34', NULL),
-(3, 'service', 'bi bi-table', 'service', 3, '2025-11-28 07:38:34', NULL),
+(3, 'service', 'bi bi-table', 'services', 3, '2025-11-28 07:38:34', NULL),
 (4, 'Level', 'bi bi-table', 'level', 4, '2025-11-28 07:23:37', '2025-11-28 07:59:01'),
 (5, 'user', 'bi bi-people-fill', 'user', 5, '2025-11-28 07:38:34', NULL),
 (6, 'tax', 'bi bi-people', 'tax', 6, '2025-11-28 07:38:34', NULL),

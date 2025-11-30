@@ -36,7 +36,7 @@ if (isset($_GET['delete'])) {
         <div class="col-sm-12">
             <div class="card">
                 <div class="card-body"><br>
-                    <h1 class="card-title">Data Product</h1>
+                    <h1 class="card-title">History Transaction</h1>
                     <div align='right' class="d-flex-justify-content-end p-2">
                         <a href="pos/add-order.php" class="btn btn-primary"><i class="bi bi-plus-circle"></i> Add Order</a>
                     </div>

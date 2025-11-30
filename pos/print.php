@@ -185,11 +185,11 @@ $taxs     = mysqli_fetch_assoc($queryTax);
             <span>Total</span>
             <span>Rp. <?php echo number_format($row['order_total'], 0, ',', '.'); ?></span>   
         </div>
-        <div class="total-row grand">
+        <div class="total-row ">
                 <span >Cash</span>
                 <span>Rp.<?php echo number_format($cash, 0, ',', '.') ?></span>
         </div>
-        <div class="total-row grand">
+        <div class="total-row ">
                 <span>Change</span>
                 <span>Rp.<?php echo number_format($change, 0, ',', '.')?></span>
         </div>

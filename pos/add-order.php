@@ -28,7 +28,7 @@ if (isset($_GET['payment'])) {
     $customer_id = $data['customer_id'];
     $pay = $data['pay'];
     $change = $data['change'];
-    $orderStatus = 1;
+    $orderStatus = 0;
 
     try {
         $insertOrder = mysqli_query($config, "INSERT INTO trans_orders(order_code, order_end_date, order_total, order_pay, order_change, order_tax, order_status, customer_id) 
@@ -108,6 +108,7 @@ $order_code =  "ORD-" . date('dmy') . str_pad($nextId, 4, "0", STR_PAD_RIGHT);
         <div class="row h-100 d-flex justify-content-between">
             <div class="col-md-7 product-section">
                 <div class="mb-5">
+                    <h3 style="text-align: center;">New Transaction</h3>
                     <div class="card shadow-sm mb-3">
                         <div class="card-header">
                             Customer
@@ -144,7 +145,7 @@ $order_code =  "ORD-" . date('dmy') . str_pad($nextId, 4, "0", STR_PAD_RIGHT);
                                     <div class="col-md-4 mb-3">
                                         <div class="card service-card p-2" style="cursor:pointer;" onclick='openModal(<?php echo htmlspecialchars(json_encode($service)) ?>)' data-bs-toggle="modal" data-bs-target="#exampleModal">
                                             <h6><?php echo $service['name'] ?></h6>
-                                            <small class="text-muted">Rp. <?php echo $service['price'] ?>/kg</small>
+                                            <small class="text-muted">Rp. <?php echo number_format($service['price'], 0, ','); ?>/kg</small>
                                         </div><br>
                                     </div>
                                 <?php endforeach ?>

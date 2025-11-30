@@ -27,7 +27,7 @@ if (isset($_GET['delete'])) {
         <div class="col-sm-12">
             <div class="card">
                 <div class="card-body">
-                    <h3 class="card-title">Data Service</h3>
+                    <h3 class="card-title">Order Basket</h3>
                     <div align="right">
                         <a href="?page=tambah-service" class="btn btn-outline-primary"><i class="bi bi-plus-circle"></i> Add Service</a>
                     </div><br>
@@ -45,7 +45,7 @@ if (isset($_GET['delete'])) {
                             <tr>
                                 <td><?php echo $key + 1 ?></td>
                                 <td><?php echo $service['name'] ?></td>
-                                <td><?php echo $service['price'] ?></td>
+                                <td><?php echo number_format($service['price'], 0, ',', '.'); ?></td>
                                 <td><?php echo $service['description'] ?></td>
                                 <td>
                                     <a class="btn btn-outline-success" href="?page=tambah-service&edit=<?php echo $service['id'] ?>"> <i class="bi bi-pencil"></i></a>

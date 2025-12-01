@@ -36,7 +36,7 @@ if (isset($_GET['delete'])) {
         <div class="col-sm-12">
             <div class="card">
                 <div class="card-body"><br>
-                    <h1 class="card-title">History Transaction</h1>
+                    <h1 class="card-title">Data Order</h1>
                     <div align='right' class="d-flex-justify-content-end p-2">
                         <a href="pos/add-order.php" class="btn btn-primary"><i class="bi bi-plus-circle"></i> Add Order</a>
                     </div>
@@ -62,7 +62,7 @@ if (isset($_GET['delete'])) {
                                 <td><?php echo number_format($v['order_tax'], 0, ',', '.'); ?></td>
                                 <td><?php echo number_format($v['order_pay'], 0, ',', '.'); ?></td>
                                 <td><?php echo number_format($v['order_change'], 0, ',', '.'); ?></td>
-                                <td><?php echo $v['order_status'] ?></td>
+                                <td class="text-center"><?php echo $v['order_status'] == 0 ? '<span class="badge text-bg-warning fs-6">New</span>' : '<span class="badge text-bg-success fs-6">Picked Up</span>' ?></td>
                                 <td>
                                     <a href="pos/print.php?id=<?php echo $v['id'] ?>" class="btn btn-outline-warning"><i class="bi bi-printer"></i></a>
                                     <a href="?page=order&delete=<?php echo $v['id'] ?>" class="btn btn-outline-danger" onclick="return confirm('really wnna delete??')"><i class="bi bi-trash"></i></a>

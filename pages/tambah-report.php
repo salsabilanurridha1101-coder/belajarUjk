@@ -16,7 +16,7 @@ $report = mysqli_fetch_assoc($selectReport);
 // }
 
 if (isset($_POST['update'])) {
-//   $name             = $_POST['name'];
+  //   $name             = $_POST['name'];
   $customer         = $_POST['customer_id'];
   $orderCode        = $_POST['order_code'];
   $orderStatus      = $_POST['order_status'];
@@ -25,7 +25,8 @@ if (isset($_POST['update'])) {
   $orderTax         = $_POST['order_tax'];
   $orderTotal       = $_POST['order_total'];
 
-  $update = mysqli_query($config, 
+  $update = mysqli_query(
+    $config,
     "UPDATE trans_orders SET 
     --   name='$name', 
       customer_id='$customer', 
@@ -57,7 +58,7 @@ if (isset($_POST['update'])) {
     <div class="col-sm-12">
       <div class="card">
         <div class="card-header">
-          <h3 class="card-title" ><?php echo isset($_GET['edit']) ? 'Update' : 'Tambah '?> Report</h3>
+          <h3 class="card-title"><?php echo isset($_GET['edit']) ? 'Update' : 'Tambah ' ?> Report</h3>
           <div class="card-body">
             <form action="" method="post">
               <!-- <label for="" class="form-label">Name</label><br>
@@ -67,7 +68,15 @@ if (isset($_POST['update'])) {
               <label for="" class="form-label">Order Code</label><br>
               <input placeholder="Isi Link" type="text" class="form-control w-50 mb-2" name="order_code" value="<?php echo $report['order_code'] ?? '' ?>" readonly>
               <label for="" class="form-label">Order Status</label><br>
-              <input placeholder="Isi nama Order" type="number" class="form-control w-50 mb-2" name="order_status" value="<?php echo $report['order_status'] ?? '' ?>">
+              <select name="order_status" class="form-control">
+                <option value="0" <?php echo (isset($report['order_status']) && $report['order_status'] == 0) ? 'selected' : ''; ?>>
+                  0 - on process
+                </option>
+
+                <option value="1" <?php echo (isset($report['order_status']) && $report['order_status'] == 1) ? 'selected' : ''; ?>>
+                  1 - done
+                </option>
+              </select>
               <label for="" class="form-label">Order Pay</label><br>
               <input placeholder="Isi nama Menu" type="text" class="form-control w-50 mb-2" name="order_pay" value="<?php echo $report['order_pay'] ?? '' ?>" readonly>
               <label for="" class="form-label">Order Change</label><br>
